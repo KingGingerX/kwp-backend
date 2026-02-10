@@ -1,0 +1,15 @@
+{
+  "name": "kwp-backend",
+  "version": "1.0.0",
+  "description": "KWP Payment Backend",
+  "main": "KWP_BACKEND_PRODUCTION.js",
+  "scripts": {
+    "start": "node KWP_BACKEND_PRODUCTION.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "stripe": "^14.0.0",
+    "cors": "^2.8.5",
+    "nodemailer": "^6.9.0"
+  }
+}
