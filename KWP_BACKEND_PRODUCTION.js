@@ -1,7 +1,7 @@
 const express = require('express');
-const cors = require('cors');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const nodemailer = require('nodemailer');
+const cors = require('cors');
 const app = express();
 
 app.use(cors());
@@ -12,13 +12,13 @@ const PRODUCTS = {
     'recovery-roadmap': {
         price: 1499,
         name: 'KWP Recovery Roadmap',
-        description: 'Complete Protocol Access - One Time',
+        description: 'Complete Protocol Access',
         mode: 'payment'
     },
     'agency-monthly': {
         price: 999,
         name: 'KWP Agency Escape Plan - Monthly',
-        description: 'Monthly Membership Subscription',
+        description: 'Monthly Membership',
         mode: 'subscription'
     },
     'agency-onetime': {
@@ -29,7 +29,7 @@ const PRODUCTS = {
     }
 };
 
-// Email transporter setup
+// Email setup
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -38,7 +38,7 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-// Root route - Health check
+// Health check
 app.get('/', (req, res) => {
     res.json({ 
         message: 'KWP Server Running',
@@ -47,7 +47,7 @@ app.get('/', (req, res) => {
     });
 });
 
-// Create checkout session
+// THIS IS THE MISSING PART - Create checkout session
 app.post('/create-recovery-session', async (req, res) => {
     try {
         const { email, product = 'recovery-roadmap' } = req.body;
@@ -56,13 +56,11 @@ app.post('/create-recovery-session', async (req, res) => {
             return res.status(400).json({ error: 'Email is required' });
         }
         
-        // Get product config
         const productConfig = PRODUCTS[product];
         if (!productConfig) {
             return res.status(400).json({ error: 'Invalid product selected' });
         }
 
-        // Build price data
         const priceData = {
             currency: 'usd',
             product_data: {
@@ -72,12 +70,10 @@ app.post('/create-recovery-session', async (req, res) => {
             unit_amount: productConfig.price,
         };
 
-        // Add recurring data for subscriptions
         if (productConfig.mode === 'subscription') {
             priceData.recurring = { interval: 'month' };
         }
 
-        // Create Stripe Checkout Session
         const session = await stripe.checkout.sessions.create({
             customer_email: email,
             line_items: [{
@@ -101,72 +97,7 @@ app.post('/create-recovery-session', async (req, res) => {
     }
 });
 
-// Stripe Webhook endpoint
-app.post('/webhook', express.raw({type: 'application/json'}), async (req, res) => {
-    const sig = req.headers['stripe-signature'];
-    const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
-    
-    let event;
-    
-    try {
-        event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
-    } catch (err) {
-        console.log(`Webhook Error: ${err.message}`);
-        return res.status(400).send(`Webhook Error: ${err.message}`);
-    }
-    
-    // Handle successful payment
-    if (event.type === 'checkout.session.completed') {
-        const session = event.data.object;
-        const customerEmail = session.customer_email || session.metadata.customer_email;
-        const productType = session.metadata.product_type || 'recovery-roadmap';
-        
-        // Send email with access info
-        await sendProductEmail(customerEmail, productType);
-    }
-    
-    res.json({received: true});
-});
-
-// Send product email
-async function sendProductEmail(email, productType) {
-    const productNames = {
-        'recovery-roadmap': 'KWP Recovery Roadmap',
-        'agency-monthly': 'KWP Agency Escape Plan (Monthly)',
-        'agency-onetime': 'KWP Agency Escape Plan (Lifetime)'
-    };
-    
-    const mailOptions = {
-        from: process.env.GMAIL_USER,
-        to: email,
-        subject: `Your ${productNames[productType]} Access`,
-        html: `
-            <h1>Welcome to KWP</h1>
-            <p>Thank you for purchasing the ${productNames[productType]}.</p>
-            <p>Your access has been activated.</p>
-            <br>
-            <p>Login to your dashboard to get started.</p>
-            <p>- Kingdom Wellness Protocol Team</p>
-        `
-    };
-    
-    try {
-        await transporter.sendMail(mailOptions);
-        console.log(`Email sent to ${email} for ${productType}`);
-    } catch (error) {
-        console.error('Email error:', error);
-    }
-}
-
-// Error handling
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).json({ error: 'Something went wrong!' });
-});
-
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`KWP Server running on port ${PORT}`);
-    console.log('Available products:', Object.keys(PRODUCTS));
 });
-
