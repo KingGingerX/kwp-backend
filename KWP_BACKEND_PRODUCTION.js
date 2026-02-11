@@ -1,3 +1,5 @@
+console.log('=== BACKEND VERSION 3 - FORCED REDEPLOY ===');
+console.log('Express JSON parser active');
 const express = require('express');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const nodemailer = require('nodemailer');
@@ -101,3 +103,4 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`KWP Server running on port ${PORT}`);
 });
+
