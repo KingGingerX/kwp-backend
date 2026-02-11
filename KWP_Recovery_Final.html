@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KWP Recovery Roadmap | Kingdom Wellness Protocol</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --kwp-blue: #003399;
+            --kwp-blue-light: #0047CC;
+            --kwp-cyan: #00D4FF;
+            --kwp-silver: #C0C0C0;
+            --bg-dark: #0a0a0f;
+            --bg-card: #12121a;
+            --text: #ffffff;
+            --text-muted: #94a3b8;
+            --success: #10B981;
+            --gold: #F59E0B;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, #0f172a 100%);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* PROFESSIONAL LOGO STYLES */
+        .kwp-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: linear-gradient(180deg, rgba(0,20,60,0.4) 0%, transparent 100%);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .kwp-logo-img {
+            height: 50px;
+            width: auto;
+            filter: drop-shadow(0 4px 12px rgba(0,51,153,0.4));
+        }
+
+        .kwp-hero-logo-img {
+            height: 100px;
+            width: auto;
+            margin-bottom: 24px;
+            filter: drop-shadow(0 8px 24px rgba(0,51,153,0.5));
+        }
+
+        .kwp-logo-small {
+            height: 40px;
+            width: auto;
+            filter: drop-shadow(0 2px 8px rgba(0,51,153,0.4));
+        }
+
+        .container { max-width: 480px; margin: 0 auto; padding: 20px; }
+
+        .screen { display: none; animation: fadeIn 0.4s ease; }
+        .screen.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .hero {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(180deg, rgba(0,51,153,0.15) 0%, transparent 100%);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .hero h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin: 16px 0 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .price-card {
+            background: linear-gradient(135deg, rgba(0,51,153,0.2) 0%, rgba(0,71,204,0.1) 100%);
+            border: 2px solid var(--kwp-blue);
+            border-radius: 20px;
+            padding: 32px;
+            margin: 32px 0;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0,51,153,0.2);
+        }
+
+        .price { font-size: 52px; font-weight: 800; color: var(--success); }
+        .price-note { color: var(--text-muted); font-size: 13px; margin-top: 4px; }
+
+        .bogo-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--gold), #F97316);
+            color: #000;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 12px;
+            margin-top: 16px;
+            box-shadow: 0 4px 15px rgba(245,158,11,0.3);
+        }
+
+        .payment-form { 
+            background: var(--bg-card); 
+            border: 1px solid rgba(255,255,255,0.08); 
+            border-radius: 16px; 
+            padding: 24px; 
+            margin: 24px 0; 
+        }
+
+        .form-label { 
+            display: block; 
+            margin-bottom: 8px; 
+            color: var(--kwp-silver); 
+            font-size: 11px; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            letter-spacing: 0.15em; 
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 15px;
+            margin-bottom: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--kwp-blue);
+            box-shadow: 0 0 0 3px rgba(0,51,153,0.2);
+        }
+
+        .btn { 
+            width: 100%; 
+            padding: 18px; 
+            border: none; 
+            border-radius: 10px; 
+            font-size: 15px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            transition: all 0.3s; 
+            margin: 8px 0; 
+            text-transform: uppercase; 
+            letter-spacing: 0.1em; 
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .btn-primary { 
+            background: linear-gradient(135deg, var(--kwp-blue), var(--kwp-blue-light)); 
+            color: white; 
+            box-shadow: 0 4px 20px rgba(0,51,153,0.4); 
+        }
+
+        .btn-primary:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 6px 30px rgba(0,51,153,0.5); 
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--kwp-blue);
+            color: var(--kwp-cyan);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .app-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 24px; 
+            padding: 20px;
+            background: rgba(0,51,153,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .mini-logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--kwp-blue);
+            letter-spacing: 2px;
+        }
+
+        .track-card { 
+            background: var(--bg-card); 
+            border: 1px solid rgba(255,255,255,0.08); 
+            border-radius: 16px; 
+            padding: 24px; 
+            margin-bottom: 16px; 
+            cursor: pointer; 
+            transition: all 0.3s; 
+            border-left: 3px solid transparent;
+        }
+
+        .track-card:hover { 
+            border-left-color: var(--kwp-blue);
+            transform: translateX(4px);
+            background: rgba(0,51,153,0.1);
+        }
+
+        .day-grid { 
+            display: grid; 
+            grid-template-columns: repeat(7, 1fr); 
+            gap: 8px; 
+            padding: 20px;
+        }
+
+        .day-cell { 
+            aspect-ratio: 1; 
+            background: var(--bg-card); 
+            border: 1px solid rgba(255,255,255,0.08); 
+            border-radius: 10px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: all 0.2s; 
+            font-size: 13px;
+        }
+
+        .day-cell.completed { 
+            background: var(--success); 
+            border-color: var(--success); 
+            color: white; 
+        }
+
+        .day-cell.current { 
+            border-color: var(--kwp-blue); 
+            box-shadow: 0 0 0 2px rgba(0,51,153,0.3);
+            color: var(--kwp-cyan);
+        }
+
+        .gift-section { 
+            background: linear-gradient(135deg, rgba(245,158,11,0.1), rgba(249,115,22,0.05)); 
+            border: 2px dashed var(--gold); 
+            border-radius: 16px; 
+            padding: 24px; 
+            margin: 24px 0; 
+            text-align: center; 
+        }
+
+        .gift-code { 
+            background: rgba(0,0,0,0.3); 
+            padding: 16px; 
+            border-radius: 8px; 
+            font-family: 'Courier New', monospace; 
+            font-size: 18px; 
+            letter-spacing: 3px; 
+            color: var(--gold); 
+            font-weight: 700;
+            border: 1px solid rgba(245,158,11,0.3);
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            font-size: 13px;
+            margin-top: 12px;
+            text-align: center;
+            display: none;
+        }
+
+        .spinner { 
+            display: none; 
+            width: 20px; 
+            height: 20px; 
+            border: 3px solid rgba(255,255,255,0.3); 
+            border-radius: 50%; 
+            border-top-color: white; 
+            animation: spin 1s ease-in-out infinite; 
+            margin-right: 10px; 
+            vertical-align: middle; 
+        }
+
+        .spinner.active { display: inline-block; }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <!-- PAYMENT SCREEN -->
+    <div class="screen active" id="payment-screen">
+        <div class="hero">
+            <!-- PROFESSIONAL LOGO -->
+            <img src="kwp-logo.jpg" alt="KWP Kingdom Wellness Protocol" class="kwp-hero-logo-img">
+            
+            <h1>Recovery Roadmap</h1>
+            <p>Evidence-based 30-day protocols for lasting freedom from addiction.</p>
+        </div>
+
+        <div class="container">
+            <div class="price-card">
+                <div style="color: var(--kwp-silver); text-transform: uppercase; letter-spacing: 0.2em; font-size: 11px; margin-bottom: 8px;">Complete Protocol Access</div>
+                <div class="price">$14.99</div>
+                <div class="price-note">One-time investment • Lifetime access</div>
+                <div class="bogo-badge">🎁 Buy One, Gift One Free</div>
+                <p style="margin-top: 12px; font-size: 12px; color: var(--text-muted);">Share recovery with someone you love</p>
+            </div>
+
+            <form id="payment-form">
+                <div class="payment-form">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" id="email" class="form-input" placeholder="your@email.com" required>
+
+                    <div style="background: rgba(0,51,153,0.1); border: 1px solid rgba(0,51,153,0.3); padding: 16px; border-radius: 10px; margin-top: 8px;">
+                        <div style="display: flex; align-items: center; gap: 12px; color: var(--text-muted); font-size: 13px;">
+                            <span style="font-size: 20px;">🔒</span>
+                            <span>You will be securely redirected to Stripe to complete payment</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="error-message" id="error-message"></div>
+
+                <button class="btn btn-primary" type="submit" id="submit-btn">
+                    <span class="spinner" id="spinner"></span>
+                    <span id="btn-text">Complete Purchase — $14.99</span>
+                </button>
+            </form>
+
+            <div style="text-align: center; margin-top: 24px;">
+                <input type="text" id="gift-code-input" placeholder="KWP-XXXX-XXXX" style="width: 100%; padding: 14px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: white; margin-bottom: 12px; text-align: center; letter-spacing: 3px; font-family: 'Courier New', monospace;">
+                <button class="btn btn-outline" onclick="redeemGiftCode()">Redeem Gift Code</button>
+            </div>
+
+            <div style="text-align: center; margin-top: 32px; color: var(--text-muted); font-size: 11px; line-height: 1.8;">
+                <p>🔒 Secured by Stripe • 30-Day Money-Back Guarantee</p>
+                <p style="margin-top: 8px;">You deserve freedom. Take the first step.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUCCESS SCREEN -->
+    <div class="screen" id="success-screen" style="text-align: center; padding: 40px 20px;">
+        <!-- LOGO -->
+        <img src="kwp-logo.jpg" alt="KWP" class="kwp-hero-logo-img" style="height: 80px;">
+        
+        <div style="background: rgba(16,185,129,0.1); border: 1px solid var(--success); border-radius: 12px; padding: 16px; margin: 24px 0;">
+            <div style="font-size: 11px; color: var(--success); text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 8px;">Protocol Activated</div>
+            <div style="font-size: 24px; font-weight: 700;">You're In</div>
+        </div>
+
+        <div class="gift-section">
+            <div style="font-weight: 700; color: var(--gold); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.1em; font-size: 13px;">🎁 Your KWP Gift Protocol</div>
+            <p style="color: var(--text-muted); margin-bottom: 16px; font-size: 13px;">Share recovery. Gift this protocol to someone in need.</p>
+            <div class="gift-code" id="gift-code">KWP-XXXX-XXXX</div>
+            <button class="btn btn-outline" onclick="copyGiftCode()" style="margin-top: 16px; border-color: var(--gold); color: var(--gold);">Copy Gift Code</button>
+        </div>
+
+        <button class="btn btn-primary" onclick="enterApp()" style="margin-top: 24px;">Begin 30-Day Protocol →</button>
+    </div>
+
+    <!-- APP DASHBOARD -->
+    <div class="screen" id="app-dashboard">
+        <div class="app-header">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <img src="kwp-logo.jpg" alt="KWP" class="kwp-logo-small">
+                <div style="color: var(--success); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;">✓ Member</div>
+            </div>
+        </div>
+
+        <div style="padding: 20px;">
+            <div style="margin-bottom: 24px;">
+                <div style="font-size: 11px; color: var(--kwp-silver); text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 4px;">Select Your Track</div>
+                <div style="font-size: 20px; font-weight: 700;">Choose Your Protocol</div>
+            </div>
+
+            <div class="track-card" onclick="selectTrack('drugs')">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="font-size: 32px;">💊</div>
+                    <div>
+                        <div style="font-weight: 700; font-size: 16px; margin-bottom: 2px;">Substance Recovery</div>
+                        <div style="color: var(--text-muted); font-size: 12px;">30-day evidence-based protocol</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="track-card" onclick="selectTrack('alcohol')">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="font-size: 32px;">🍷</div>
+                    <div>
+                        <div style="font-weight: 700; font-size: 16px; margin-bottom: 2px;">Alcohol Freedom</div>
+                        <div style="color: var(--text-muted); font-size: 12px;">Sobriety roadmap & support</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="track-card" onclick="selectTrack('pornography')">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="font-size: 32px;">📱</div>
+                    <div>
+                        <div style="font-weight: 700; font-size: 16px; margin-bottom: 2px;">Digital Wellness</div>
+                        <div style="color: var(--text-muted); font-size: 12px;">Regain control & focus</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="track-card" onclick="selectTrack('nicotine')">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="font-size: 32px;">🚬</div>
+                    <div>
+                        <div style="font-weight: 700; font-size: 16px; margin-bottom: 2px;">Nicotine Cessation</div>
+                        <div style="color: var(--text-muted); font-size: 12px;">Break free from smoking/vaping</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CALENDAR VIEW -->
+    <div class="screen" id="calendar-view">
+        <div class="app-header">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <img src="kwp-logo.jpg" alt="KWP" class="kwp-logo-small">
+                <div style="font-size: 12px; color: var(--text-muted);" id="track-label">Protocol</div>
+            </div>
+        </div>
+        <div class="day-grid" id="calendar-grid"></div>
+    </div>
+
+    <script>
+        const BACKEND_URL = 'https://authentic-mindfulness-production-d948.up.railway.app';
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const sessionId = urlParams.get('session_id');
+        const canceled = urlParams.get('canceled');
+        
+        if (sessionId) {
+            showScreen('success-screen');
+            const orderId = 'KWP-REC-' + sessionId.substring(0, 8).toUpperCase();
+            document.getElementById('gift-code').textContent = 'KWP-GIFT-' + Math.random().toString(36).substring(2, 6).toUpperCase();
+            localStorage.setItem('recovery_purchased', 'true');
+            window.history.replaceState({}, document.title, window.location.pathname);
+        } else if (canceled) {
+            showScreen('payment-screen');
+            const errorDiv = document.getElementById('error-message');
+            errorDiv.textContent = 'Payment canceled. You can try again when ready.';
+            errorDiv.style.display = 'block';
+        }
+
+        if (localStorage.getItem('recovery_purchased') === 'true' && !sessionId) {
+            showScreen('app-dashboard');
+        }
+
+        function showScreen(id) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+
+        document.getElementById('payment-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const submitBtn = document.getElementById('submit-btn');
+            const spinner = document.getElementById('spinner');
+            const btnText = document.getElementById('btn-text');
+            const errorDiv = document.getElementById('error-message');
+            
+            spinner.classList.add('active');
+            btnText.textContent = 'Processing...';
+            submitBtn.disabled = true;
+            errorDiv.style.display = 'none';
+            
+            try {
+                const response = await fetch(`${BACKEND_URL}/create-recovery-session`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        product: 'recovery-roadmap'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.url) {
+                    window.location.href = data.url;
+                } else if (data.error) {
+                    throw new Error(data.error);
+                } else {
+                    throw new Error('Unable to initialize payment');
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                errorDiv.textContent = 'Error: ' + error.message;
+                errorDiv.style.display = 'block';
+                spinner.classList.remove('active');
+                btnText.textContent = 'Complete Purchase — $14.99';
+                submitBtn.disabled = false;
+            }
+        });
+
+        function redeemGiftCode() {
+            const code = document.getElementById('gift-code-input').value.trim();
+            if (code.startsWith('KWP-')) {
+                localStorage.setItem('recovery_purchased', 'true');
+                showScreen('app-dashboard');
+                alert('🎁 Gift code redeemed. Welcome to KWP.');
+            } else {
+                alert('Invalid KWP code');
+            }
+        }
+
+        function copyGiftCode() {
+            const code = document.getElementById('gift-code').textContent;
+            navigator.clipboard.writeText(code);
+            alert('Gift code copied!');
+        }
+
+        function enterApp() {
+            showScreen('app-dashboard');
+        }
+
+        function selectTrack(track) {
+            showScreen('calendar-view');
+            document.getElementById('track-label').textContent = track + ' Protocol';
+        }
+    </script>
+</body>
+</html>

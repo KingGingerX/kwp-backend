@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KWP Agency Escape Plan | Take Back Your Career</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800;900&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --kwp-blue: #003399;
+            --kwp-blue-light: #0047CC;
+            --kwp-cyan: #00D4FF;
+            --kwp-silver: #C0C0C0;
+            --neon-red: #ff003c;
+            --bg-dark: #0a0a0f;
+            --bg-card: #12121a;
+            --text: #ffffff;
+            --text-muted: #94a3b8;
+            --success: #10B981;
+            --gold: #F59E0B;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* PROFESSIONAL LOGO STYLES */
+        .kwp-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: linear-gradient(180deg, rgba(0,20,60,0.4) 0%, transparent 100%);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .kwp-logo-img {
+            height: 60px;
+            width: auto;
+            filter: drop-shadow(0 4px 12px rgba(0,51,153,0.4));
+            transition: transform 0.3s;
+        }
+
+        .kwp-logo-img:hover {
+            transform: scale(1.05);
+        }
+
+        .kwp-hero-logo-img {
+            height: 140px;
+            width: auto;
+            margin-bottom: 32px;
+            filter: drop-shadow(0 8px 30px rgba(0,51,153,0.6));
+        }
+
+        .kwp-logo-small {
+            height: 50px;
+            width: auto;
+            filter: drop-shadow(0 2px 8px rgba(0,51,153,0.4));
+        }
+
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
+            background: 
+                linear-gradient(135deg, rgba(0,51,153,0.1) 0%, transparent 50%, rgba(255,0,60,0.05) 100%),
+                radial-gradient(circle at 50% 50%, rgba(0,51,153,0.1) 0%, transparent 70%);
+            position: relative;
+        }
+
+        .hero::before {
+            content: 'ESCAPE';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 20vw;
+            font-weight: 900;
+            opacity: 0.02;
+            letter-spacing: 0.1em;
+            pointer-events: none;
+        }
+
+        .hero h1 {
+            font-size: clamp(36px, 8vw, 72px);
+            font-weight: 800;
+            margin: 24px 0;
+            line-height: 1;
+            letter-spacing: -1px;
+        }
+
+        .hero h1 span {
+            color: var(--neon-red);
+            text-shadow: 0 0 20px rgba(255,0,60,0.4);
+        }
+
+        .hero-sub {
+            font-size: 18px;
+            color: var(--text-muted);
+            max-width: 600px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--kwp-blue), var(--kwp-blue-light));
+            color: white;
+            padding: 24px 48px;
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            border: none;
+            cursor: pointer;
+            box-shadow: 
+                0 4px 20px rgba(0,51,153,0.4),
+                0 0 40px rgba(0,51,153,0.2);
+            transition: all 0.3s;
+            clip-path: polygon(8% 0, 100% 0, 92% 100%, 0% 100%);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 6px 30px rgba(0,51,153,0.5),
+                0 0 60px rgba(0,51,153,0.3);
+        }
+
+        .section {
+            padding: 80px 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-size: 11px;
+            letter-spacing: 0.3em;
+            color: var(--kwp-cyan);
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-label::before {
+            content: '';
+            width: 30px;
+            height: 1px;
+            background: var(--kwp-cyan);
+        }
+
+        h2 {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 700;
+            margin-bottom: 24px;
+            line-height: 1.2;
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 48px;
+        }
+
+        .problem-card {
+            background: var(--bg-card);
+            padding: 32px;
+            border-left: 3px solid var(--neon-red);
+            position: relative;
+        }
+
+        .problem-card::before {
+            content: attr(data-number);
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            font-size: 48px;
+            font-weight: 800;
+            opacity: 0.1;
+            color: var(--neon-red);
+        }
+
+        .problem-card h3 {
+            font-size: 18px;
+            margin-bottom: 12px;
+            color: white;
+        }
+
+        .problem-card p {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 48px 0;
+            padding: 32px;
+            background: rgba(0,51,153,0.1);
+            border: 1px solid rgba(0,51,153,0.3);
+        }
+
+        .stat-box {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--kwp-cyan);
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 8px;
+        }
+
+        .pricing-section {
+            text-align: center;
+            padding: 80px 20px;
+            background: linear-gradient(180deg, transparent 0%, rgba(0,51,153,0.1) 100%);
+        }
+
+        .price-box {
+            max-width: 480px;
+            margin: 24px auto;
+            padding: 48px 32px;
+            background: linear-gradient(135deg, rgba(0,51,153,0.2) 0%, rgba(0,71,204,0.1) 100%);
+            border: 2px solid var(--kwp-blue);
+            box-shadow: 0 20px 60px rgba(0,51,153,0.3);
+            position: relative;
+        }
+
+        .price {
+            font-size: 64px;
+            font-weight: 800;
+            margin: 16px 0;
+            color: white;
+        }
+
+        .price span {
+            font-size: 20px;
+            color: var(--text-muted);
+        }
+
+        .btn-full {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--kwp-blue), var(--kwp-blue-light));
+            color: white;
+            border: none;
+            font-size: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            margin-top: 24px;
+            transition: all 0.3s;
+        }
+
+        .btn-full:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,51,153,0.4);
+        }
+
+        .disclaimer {
+            padding: 60px 20px;
+            background: rgba(0,0,0,0.5);
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .disclaimer-box {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 32px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .checkbox-wrap {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin: 24px 0;
+            cursor: pointer;
+        }
+
+        .checkbox-wrap input {
+            margin-top: 4px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            max-width: 480px;
+            width: 100%;
+            padding: 40px;
+            border: 1px solid rgba(0,51,153,0.3);
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--kwp-silver);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 16px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            font-size: 15px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--kwp-blue);
+        }
+
+        @media (max-width: 768px) {
+            .stats-bar {
+                grid-template-columns: 1fr;
+            }
+            .kwp-hero-logo-img {
+                height: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- PROFESSIONAL HEADER WITH LOGO -->
+    <div class="kwp-header">
+        <img src="kwp-logo.jpg" alt="KWP Kingdom Wellness Protocol" class="kwp-logo-img">
+    </div>
+
+    <!-- HERO SECTION WITH LOGO -->
+    <section class="hero">
+        <img src="kwp-logo.jpg" alt="KWP" class="kwp-hero-logo-img">
+        
+        <div style="font-size: 12px; letter-spacing: 0.3em; color: var(--neon-red); margin-bottom: 16px; font-weight: 600;">
+            THE UNDERGROUND PLAYBOOK
+        </div>
+
+        <h1>
+            Escape<br>
+            <span>The Agency</span><br>
+            Trap
+        </h1>
+
+        <p class="hero-sub">
+            Stop giving away 40% of your earnings. The KWP Agency Escape Plan gives you the exact system 
+            independent models use to book $3K+ campaigns—without the middleman.
+        </p>
+
+        <button class="cta-btn" onclick="document.getElementById('pricing').scrollIntoView({behavior: 'smooth'})">
+            Get The Escape Plan
+        </button>
+
+        <div style="margin-top: 24px; font-size: 11px; color: var(--text-muted); letter-spacing: 0.1em;">
+            ⚠️ Not for agency-signed models
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="section-label">The Truth</div>
+        <h2>You're Being Milked<br>Like a Product</h2>
+        <p style="color: var(--text-muted); line-height: 1.6;">
+            Traditional agencies take 20-40% just for existing. KWP teaches you to 
+            keep 100% of what you earn.
+        </p>
+
+        <div class="problem-grid">
+            <div class="problem-card" data-number="01">
+                <h3>The 40% Tax</h3>
+                <p>Agencies take nearly half your check for sending emails.</p>
+            </div>
+            <div class="problem-card" data-number="02">
+                <h3>The Waiting Game</h3>
+                <p>"We'll call you." Meanwhile you're on a shelf.</p>
+            </div>
+            <div class="problem-card" data-number="03">
+                <h3>The Control</h3>
+                <p>They own your image rights. KWP teaches you to own everything.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="background: rgba(0,51,153,0.05);">
+        <div class="section-label">KWP Solution</div>
+        <h2>Direct-To-Brand<br>Is The New Standard</h2>
+        
+        <div class="stats-bar">
+            <div class="stat-box">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Keep Your Earnings</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">24HR</div>
+                <div class="stat-label">Brand Response Time</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">$0</div>
+                <div class="stat-label">Agency Fees</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pricing-section" id="pricing">
+        <div class="section-label">KWP Investment</div>
+        <h2>Choose Your Path</h2>
+
+        <!-- Monthly Option -->
+        <div class="price-box" style="border-color: var(--kwp-cyan); margin-bottom: 32px;">
+            <div style="text-transform: uppercase; letter-spacing: 0.2em; font-size: 11px; color: var(--kwp-cyan);">Monthly Membership</div>
+            <div class="price">$9<span>.99</span></div>
+            <div style="color: var(--text-muted); font-size: 13px; margin-bottom: 24px;">/month • Cancel anytime</div>
+
+            <div style="text-align: left; color: var(--text-muted); font-size: 14px; line-height: 2; margin-bottom: 24px;">
+                <div>✓ Full Agency Escape System</div>
+                <div>✓ Monthly Strategy Updates</div>
+                <div>✓ Community Access</div>
+                <div>✓ Live Q&A Calls</div>
+            </div>
+
+            <button class="btn-full" onclick="openPaymentModal('agency-monthly')" style="background: linear-gradient(135deg, var(--kwp-cyan), #0891b2); color: #000;">
+                Start Monthly — $9.99
+            </button>
+        </div>
+
+        <!-- One-time Option -->
+        <div class="price-box" style="border-color: var(--gold); position: relative;">
+            <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--gold); color: #000; padding: 6px 20px; font-size: 10px; font-weight: 700; letter-spacing: 0.2em;">BEST VALUE</div>
+            <div style="text-transform: uppercase; letter-spacing: 0.2em; font-size: 11px; color: var(--gold);">Lifetime Access</div>
+            <div class="price">$49<span>.99</span></div>
+            <div style="color: var(--text-muted); font-size: 13px; text-decoration: line-through; opacity: 0.6;">$119.88 over 12 months</div>
+            <div style="color: var(--success); font-size: 13px; margin-bottom: 24px;">Save 58% • Pay Once, Own Forever</div>
+
+            <div style="text-align: left; color: var(--text-muted); font-size: 14px; line-height: 2; margin-bottom: 24px;">
+                <div>✓ Everything in Monthly</div>
+                <div>✓ Lifetime Updates</div>
+                <div>✓ 1-on-1 Strategy Call</div>
+                <div>✓ Contract Templates</div>
+                <div>✓ 30-Day Guarantee</div>
+            </div>
+
+            <button class="btn-full" onclick="openPaymentModal('agency-onetime')" style="background: linear-gradient(135deg, var(--gold), #d97706); color: #000;">
+                Get Lifetime Access — $49.99
+            </button>
+        </div>
+    </section>
+
+    <section class="disclaimer">
+        <div class="disclaimer-box">
+            <div style="color: #ffaa00; font-size: 12px; font-weight: 700; margin-bottom: 16px;">⚠️ KWP LEGAL NOTICE</div>
+            <p style="color: var(--text-muted); font-size: 12px; line-height: 1.8;">
+                <strong>Results May Vary:</strong> KWP provides educational tools only. We do not guarantee income or success.
+            </p>
+            <div class="checkbox-wrap" onclick="toggleAgree()">
+                <input type="checkbox" id="agree-check">
+                <label style="color: var(--text-muted); font-size: 12px;">
+                    I understand that KWP provides educational tools only and does not guarantee income or success.
+                </label>
+            </div>
+        </div>
+    </section>
+
+    <!-- PAYMENT MODAL -->
+    <div class="modal" id="payment-modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closePaymentModal()">×</button>
+            
+            <!-- LOGO IN MODAL -->
+            <div style="text-align: center; margin-bottom: 24px;">
+                <img src="kwp-logo.jpg" alt="KWP" class="kwp-logo-small">
+            </div>
+
+            <h3 style="text-align: center; margin-bottom: 24px;" id="modal-title">Complete Purchase</h3>
+
+            <form id="payment-form">
+                <div class="form-group">
+                    <label class="form-label">Email for Receipt & Access</label>
+                    <input type="email" id="email" class="form-input" placeholder="your@email.com" required>
+                </div>
+
+                <div style="background: rgba(0,51,153,0.1); border: 1px solid rgba(0,51,153,0.3); padding: 16px; margin: 20px 0;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span style="color: var(--text-muted);" id="product-name">Agency Escape Plan</span>
+                        <span id="product-price">$49.99</span>
+                    </div>
+                    <div style="border-top: 1px solid rgba(0,51,153,0.3); padding-top: 8px; display: flex; justify-content: space-between; font-weight: 700;">
+                        <span>Total</span>
+                        <span style="color: var(--kwp-cyan);" id="total-price">$49.99</span>
+                    </div>
+                </div>
+
+                <div id="error-message" style="color: #ff6b6b; font-size: 12px; margin-bottom: 16px; text-align: center; display: none;"></div>
+
+                <button type="submit" class="btn-full" id="submit-btn">Complete Purchase</button>
+                
+                <div style="margin-top: 16px; text-align: center; font-size: 11px; color: var(--text-muted);">
+                    🔒 Secured by Stripe • Redirected to complete payment
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const BACKEND_URL = 'https://authentic-mindfulness-production-d948.up.railway.app';
+        let selectedProduct = 'agency-onetime';
+
+        const productInfo = {
+            'agency-monthly': { name: 'Agency Escape Plan - Monthly', price: '$9.99/month' },
+            'agency-onetime': { name: 'Agency Escape Plan - Lifetime', price: '$49.99' }
+        };
+
+        function toggleAgree() {
+            const check = document.getElementById('agree-check');
+            check.checked = !check.checked;
+        }
+
+        function openPaymentModal(product) {
+            if (!document.getElementById('agree-check').checked) {
+                alert('Please agree to the KWP terms above.');
+                return;
+            }
+            
+            selectedProduct = product;
+            const info = productInfo[product];
+            
+            document.getElementById('modal-title').textContent = `Complete Purchase — ${info.name}`;
+            document.getElementById('product-name').textContent = info.name;
+            document.getElementById('product-price').textContent = info.price;
+            document.getElementById('total-price').textContent = info.price;
+            
+            document.getElementById('payment-modal').classList.add('active');
+        }
+
+        function closePaymentModal() {
+            document.getElementById('payment-modal').classList.remove('active');
+        }
+
+        document.getElementById('payment-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const submitBtn = document.getElementById('submit-btn');
+            const errorDiv = document.getElementById('error-message');
+            
+            submitBtn.textContent = 'Processing...';
+            submitBtn.disabled = true;
+            errorDiv.style.display = 'none';
+            
+            try {
+                const response = await fetch(`${BACKEND_URL}/create-recovery-session`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: email, product: selectedProduct })
+                });
+                
+                const data = await response.json();
+                
+                if (data.url) {
+                    window.location.href = data.url;
+                } else {
+                    throw new Error(data.error || 'Payment failed');
+                }
+                
+            } catch (error) {
+                errorDiv.textContent = 'Error: ' + error.message;
+                errorDiv.style.display = 'block';
+                submitBtn.textContent = 'Complete Purchase';
+                submitBtn.disabled = false;
+            }
+        });
+
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('canceled')) {
+            alert('Payment canceled. You can try again when ready.');
+        }
+    </script>
+</body>
+</html>
