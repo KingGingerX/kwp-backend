@@ -1,7 +1,7 @@
 const express = require('express');
+const cors = require('cors');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const nodemailer = require('nodemailer');
-const cors = require('cors');
 const app = express();
 
 app.use(cors());
@@ -169,3 +169,4 @@ app.listen(PORT, () => {
     console.log(`KWP Server running on port ${PORT}`);
     console.log('Available products:', Object.keys(PRODUCTS));
 });
+
