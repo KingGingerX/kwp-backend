@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(express.static('public'));
 
 // Email setup using your Gmail
-const transporter = nodemailer.createTransporter({
+const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
         user: process.env.EMAIL_USER || 'goodyxcorp@gmail.com',
@@ -132,4 +132,5 @@ app.post('/redeem-gift', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => console.log(`KWP Server running on port ${PORT}`));
